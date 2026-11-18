@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<script>
+/* =====================================================================
+   FANUEL PROD – RÉGLAGES DU SITE
+   Modifiez uniquement les textes entre guillemets "..." puis enregistrez.
+   ===================================================================== */
+const SITE = {
+  nom: "Fanuel Prod",
+  slogan1: "Vos événements,",
+  slogan2: "nos souvenirs.",
+  intro: "Photographie et vidéographie à Abidjan. Nous immortalisons vos plus beaux moments, du premier regard au dernier éclat de rire.",
+
+  // Contact : WhatsApp en format international SANS le + (225 = Côte d’Ivoire)
+  whatsapp: "2250576987447",       whatsappAffiche: "05 76 98 74 47",
+  telephone: "+2250143715094",     telephoneAffiche: "01 43 71 50 94",
+
+  // Réseaux sociaux : ajoutez des lignes comme ["Instagram", "https://instagram.com/votrecompte"]
+  reseaux: [
+    // ["Instagram", "https://instagram.com/..."],
+    // ["TikTok", "https://tiktok.com/@..."],
+    // ["YouTube", "https://youtube.com/@..."],
+  ],
+
+  logo: "logo.png",
+  filigrane: true,   // true = le logo est ajouté sur les photos téléchargées (en haut à gauche, comme sur vos photos d’événement)
+  tailleLogo: 13,      // taille du logo en % de la largeur de la photo (10 = très petit, 17 = comme avant, 25 = grand)
+  logoSurPhotos: true, // true = votre logo est visible en haut à gauche de chaque photo du site (comme sur vos photos d’événement)
+  logoBas: false,    // true = ajoute aussi un petit logo en bas à gauche des photos téléchargées
+  logoCentre: false, // true = ajoute un logo très discret au centre des photos téléchargées (protège contre le recadrage)
+
+  proprietaire: {
+    nom: "Joël Adji",
+    role: "Photographe et vidéaste",
+    photo: "photos/joel-adji.jpg",
+    texte: "Photographe et vidéaste. Je couvre vos mariages, cérémonies, concerts et conférences, pour que vous gardiez vos plus beaux moments."
+  },
+
+  // Types d’événements : [icône, nom, description]. Le nom sert aussi d’album « bientôt disponible ».
+  evenements: [
+    ["💍", "Mariages", "Les moments qui comptent, de la mairie à la fête."],
+    ["🎂", "Anniversaires", "Bougies, sourires et grandes tablées."],
+    ["🙏", "Cérémonies", "Baptêmes, fiançailles, remises de diplômes."],
+    ["🎤", "Concerts", "L’énergie de la scène, vue de près."],
+    ["🎓", "Conférences", "Intervenants, public et temps forts."],
+    ["✨", "Événements", "Soirées, lancements et rencontres."]
+  ],
+
+  metiers: [
+    ["📸", "Photographie", "Portraits, groupes, détails et ambiance. Vos photos vous sont remises en haute qualité."],
+    ["🎥", "Vidéographie", "Captation et montage de vos grands moments, pour les revivre et les partager."]
+  ],
+
+  etapes: [
+    ["Écrivez-nous", "Envoyez un message WhatsApp avec le type d’événement et la date."],
+    ["On s’organise", "Nous échangeons sur vos attentes et confirmons la réservation."],
+    ["On immortalise", "Nous couvrons votre événement et vous livrons photos et vidéos."]
+  ],
+
+  contactTitre: "Réservez votre date",
+  contactTexte: "Mariage, anniversaire, concert ou conférence : dites-nous ce que vous préparez."
+};
+
+/* =====================================================================
+   VOS PHOTOS
+   1) Mettez vos images dans le dossier « photos » (format .jpg, 1800 px de large max conseillé).
+   2) Ajoutez ou changez une ligne ci-dessous :
+        fichier  = nom exact du fichier dans le dossier photos
+        titre    = titre affiché sous la photo
+        album    = nom de l’album (les photos du même album sont regroupées)
+        vitrine  = true pour afficher la photo en haut de la page d’accueil (3 photos conseillées)
+        sansLogoHaut = true si la photo contient déjà votre logo en haut à gauche
+   ===================================================================== */
+const PHOTOS = [
+  { fichier: "mariage-les-maries.jpg",      titre: "Les mariés",              album: "Mariages", vitrine: true },
+  { fichier: "mariage-cortege.jpg",         titre: "Le cortège de la mariée", album: "Mariages", vitrine: true },
+  { fichier: "mariage-preparatifs.jpg",     titre: "Les préparatifs",         album: "Mariages" },
+  { fichier: "mariage-invites.jpg",         titre: "Les invités",             album: "Mariages" },
+  { fichier: "mariage-smoking-vert.jpg",      titre: "Portrait en smoking vert", album: "Mariages" },
+  { fichier: "mariage-traditionnel-danse.jpg",    titre: "Mariage traditionnel : la danse",    album: "Mariages" },
+  { fichier: "mariage-traditionnel-portrait.jpg", titre: "Mariage traditionnel : le portrait", album: "Mariages" },
+  { fichier: "mariage-collier-ambre.jpg",        titre: "Le collier d’ambre",           album: "Mariages" },
+  { fichier: "mariage-service-du-vin.jpg",       titre: "Le service du vin",            album: "Mariages" },
+  { fichier: "mariage-portrait-jean.jpg",        titre: "Portrait en jean et top brodé", album: "Mariages" },
+  { fichier: "mariage-amies.jpg",                titre: "Les amies en tenues assorties", album: "Mariages" },
+  { fichier: "mariage-tenue-bleue.jpg",          titre: "Portrait en tenue bleue brodée", album: "Mariages", sansLogoHaut: true },
+  { fichier: "mariage-tenue-wax.jpg",            titre: "Invitée en tenue wax",          album: "Mariages" },
+  { fichier: "mariage-wax-table.jpg",            titre: "Portrait en wax à la table",    album: "Mariages", sansLogoHaut: true },
+  { fichier: "jolie-photo-blanc.jpg",       titre: "Portrait en blanc",       album: "Jolie photo", sansLogoHaut: true },
+  { fichier: "jolie-photo-ruban-rose.jpg",  titre: "Portrait au ruban rose",  album: "Jolie photo", vitrine: true },
+  { fichier: "jolie-photo-fond-vert.jpg",   titre: "Portrait fond vert",      album: "Jolie photo" },
+  { fichier: "jolie-photo-top-orange.jpg",    titre: "Portrait au top orange",   album: "Jolie photo" },
+  { fichier: "jolie-photo-barbier-1.jpg",     titre: "Le barbier",               album: "Jolie photo" },
+  { fichier: "jolie-photo-barbier-2.jpg",     titre: "Le barbier et sa tondeuse", album: "Jolie photo" },
+  { fichier: "ceremonie-groupe.jpg",        titre: "Photo de groupe",         album: "Cérémonies" },
+  { fichier: "ceremonie-portrait.jpg",      titre: "Portrait en pagne",       album: "Cérémonies" },
+  { fichier: "ceremonie-participants.jpg",  titre: "Les participants",        album: "Cérémonies" },
+  { fichier: "ceremonie-pause.jpg",         titre: "Entre deux moments",      album: "Cérémonies" },
+  { fichier: "ceremonie-robe-wax.jpg",        titre: "Portrait en robe wax bleue", album: "Cérémonies" },
+];
+/* ===================== FIN DES RÉGLAGES ===================== */
+</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#17100a">
+<title>Fanuel Prod – Photographie et vidéographie</title>
+<meta name="description" content="Fanuel Prod : photographie et vidéographie pour vos mariages, anniversaires, cérémonies, concerts et conférences.">
+<meta property="og:title" content="Fanuel Prod – Vos événements, nos souvenirs">
+<meta property="og:description" content="Photographie et vidéographie : mariages, anniversaires, cérémonies, concerts, conférences.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎬%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,600;0,700;1,600&family=Outfit:wght@400;500;600&display=swap">
+<style>
+
+:root{--bg:#17100a;--mat:#241a11;--ink:#f6ecdc;--soft:#b9a98c;--line:#45341f;--acc:#ff6a33;--onacc:#1c1008;--gold:#d9a94f;--deep:#120c07;color-scheme:dark;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.6 "Bricolage Grotesque",system-ui,sans-serif}
+.w{max-width:1180px;margin:0 auto;padding:0 20px}
+a.b,button,.btn{font:inherit;color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:999px;padding:9px 20px;cursor:pointer;text-decoration:none;display:inline-block}
+a.b:hover,button:hover{border-color:var(--ink)}
+.pri{background:var(--acc)!important;color:var(--onacc)!important;border-color:var(--acc)!important;font-weight:600}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+h2{font-size:clamp(1.7rem,4vw,2.4rem);line-height:1.1;margin:0 0 10px;letter-spacing:-.02em}
+.lead{color:var(--soft);margin:0 0 28px;max-width:56ch}
+section{padding:56px 0}
+
+/* en-tête */
+.top{background:var(--deep)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;padding-top:14px;padding-bottom:14px}
+.nav img{height:52px;width:auto;display:block;background:#fff;padding:5px 12px;border-radius:6px}
+.nav nav{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.nav nav a{color:#efe6d2;text-decoration:none;padding:6px 12px;border-radius:999px}
+.nav nav a:hover{background:rgba(255,255,255,.1)}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;padding-top:40px;padding-bottom:72px}
+.hero h1{font-size:clamp(2.6rem,7.5vw,5.4rem);line-height:.95;letter-spacing:-.04em;margin:0 0 18px;font-weight:800;color:#fbf5e8}
+.hero h1 em{font-style:normal;color:var(--gold)}
+.hero p{color:#cbbfa6;max-width:46ch;margin:0 0 26px;font-size:1.08rem}
+.hero .cta{display:flex;flex-wrap:wrap;gap:10px}
+.hero a.b:not(.pri){color:#efe6d2;border-color:#6b5a3a}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.chips span{font-size:.88rem;color:#e7dcc4;border:1px solid #4d4128;border-radius:999px;padding:3px 12px}
+.collage{position:relative;height:540px}
+.collage .f{position:absolute;background:#fff;padding:8px;box-shadow:0 14px 34px rgba(0,0,0,.45)}
+.collage .f div{width:100%;height:100%;background-size:cover;background-position:center}
+.f1{left:2%;top:4%;width:52%;height:68%;transform:rotate(-4deg)}
+.f2{right:0;top:0;width:46%;height:44%;transform:rotate(3deg)}
+.f3{right:6%;bottom:2%;width:50%;height:50%;transform:rotate(-2deg)}
+.stats{background:var(--gold);color:#1f1608}
+.stats .w{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;padding-top:22px;padding-bottom:22px;text-align:center}
+.stats b{display:block;font-size:1.9rem;line-height:1.1;font-weight:800}
+.stats span{font-size:.92rem}
+
+.me{display:flex;align-items:center;gap:12px;margin-bottom:22px}
+.me img{width:60px;height:60px;border-radius:50%;object-fit:cover;object-position:50% 20%;border:2px solid var(--gold);background:#fff}
+.me b{display:block;color:#fbf5e8;line-height:1.2}.me span{color:#cbbfa6;font-size:.9rem}
+.about{display:grid;grid-template-columns:minmax(200px,300px) 1fr;gap:36px;align-items:center}
+.about img{width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:10px;border-bottom:5px solid var(--gold);background:#fff}
+.about .cta{display:flex;flex-wrap:wrap;gap:10px}
+@media (max-width:820px){.about{grid-template-columns:1fr}.about img{max-width:280px}}
+/* services */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+.card{background:var(--mat);border:1px solid var(--line);border-radius:10px;padding:18px}
+.card .ic{font-size:1.8rem;line-height:1}
+.card h3{margin:10px 0 2px;font-size:1.1rem}
+.card p{margin:0;color:var(--soft);font-size:.92rem}
+.duo{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:16px}
+.duo .card{border-top:4px solid var(--acc)}
+.duo .card:nth-child(2){border-top-color:var(--gold)}
+
+/* albums */
+.albums{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.alb{position:relative;aspect-ratio:4/5;border-radius:10px;overflow:hidden;cursor:pointer;padding:0;border:0;background-size:cover;background-position:center;text-align:left;color:#fff}
+.alb::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(20,14,6,.85))}
+.alb span{position:absolute;left:16px;right:16px;bottom:14px;z-index:1;font-size:1.25rem;font-weight:800;line-height:1.2}
+.alb small{display:block;font-weight:400;font-size:.88rem;opacity:.9}
+.alb.soon{cursor:default;background:var(--mat);border:1px dashed var(--line);color:var(--soft)}
+.alb.soon::after{display:none}
+.alb.soon span{color:var(--soft)}
+
+/* galerie */
+.fl{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.grid{columns:3 280px;column-gap:20px}
+figure{margin:0 0 20px;break-inside:avoid;background:var(--mat);padding:12px 12px 10px;border:1px solid var(--line)}
+.ph{width:100%;display:block;background-size:cover;background-position:center;cursor:zoom-in;border:0;padding:0;border-radius:0}
+figcaption{display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:.9rem;color:var(--soft);padding-top:9px}
+figcaption b{color:var(--ink);font-weight:600;display:block}
+.dl{padding:5px 13px;font-size:.88rem;background:var(--acc);color:var(--onacc);border-color:var(--acc)}
+#msg{min-height:1.5em;color:var(--soft);font-size:.9rem}
+
+/* étapes */
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;counter-reset:s}
+.steps .card{counter-increment:s}
+.steps .card::before{content:counter(s);display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--acc);color:var(--onacc);font-weight:800;margin-bottom:10px}
+
+/* contact */
+.contact{background:var(--acc);color:#fff;text-align:center}
+.contact h2{color:#fff}
+.contact p{margin:0 auto 24px;max-width:50ch;opacity:.95}
+.contact .row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.contact a.b{background:#fff;color:#2a1306;border-color:#fff;font-weight:600}
+.contact a.b.alt{background:transparent;color:#fff;border-color:#fff}
+footer{background:var(--deep);color:#b9ad93;font-size:.9rem;padding-top:28px;padding-bottom:36px;text-align:center}
+
+/* visionneuse */
+.lb{position:fixed;inset:0;background:rgba(14,10,6,.94);display:none;align-items:center;justify-content:center;flex-direction:column;gap:14px;padding:24px;z-index:20}
+.lb.on{display:flex}
+.lb .ph{cursor:default;max-width:92vw;height:70vh;aspect-ratio:var(--r);max-height:70vh}
+.lb p{margin:0;color:#eee8dc}
+.lb .ctl{display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.lb button{color:#eee8dc;border-color:#625640}
+.lb .dl{color:var(--onacc)}
+
+/* animations photo */
+.flash{position:fixed;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:50}
+.flash.go{animation:flash .9s ease-out}
+.flash.soft{animation:flashs .5s ease-out}
+@keyframes flash{0%{opacity:0}10%{opacity:.92}100%{opacity:0}}
+@keyframes flashs{0%{opacity:0}15%{opacity:.4}100%{opacity:0}}
+@keyframes dev{from{opacity:0;filter:grayscale(1) blur(12px) brightness(1.7);translate:0 -26px;scale:1.07}to{opacity:1;filter:none;translate:0 0;scale:1}}
+.collage .f1{animation:dev 1.6s cubic-bezier(.2,.7,.2,1) .35s backwards}
+.collage .f2{animation:dev 1.6s cubic-bezier(.2,.7,.2,1) .6s backwards}
+.collage .f3{animation:dev 1.6s cubic-bezier(.2,.7,.2,1) .85s backwards}
+.ph{position:relative;transition:filter 1.2s ease,opacity 1.2s ease}
+.ph.pre{filter:grayscale(1) blur(8px) brightness(1.5);opacity:.35}
+.ph::after{content:"";position:absolute;inset:14px;opacity:0;transform:scale(1.08);transition:opacity .25s,transform .25s;pointer-events:none;filter:drop-shadow(0 0 2px rgba(0,0,0,.65));
+background:linear-gradient(#fff,#fff) 0 0/26px 2px no-repeat,linear-gradient(#fff,#fff) 0 0/2px 26px no-repeat,linear-gradient(#fff,#fff) 100% 0/26px 2px no-repeat,linear-gradient(#fff,#fff) 100% 0/2px 26px no-repeat,linear-gradient(#fff,#fff) 0 100%/26px 2px no-repeat,linear-gradient(#fff,#fff) 0 100%/2px 26px no-repeat,linear-gradient(#fff,#fff) 100% 100%/26px 2px no-repeat,linear-gradient(#fff,#fff) 100% 100%/2px 26px no-repeat}
+.ph:hover::after,.ph:focus-visible::after{opacity:1;transform:none}
+.lb .ph::after{display:none}
+.lb.on .ph{animation:iris .7s cubic-bezier(.3,.7,.2,1)}
+@keyframes iris{from{clip-path:circle(0% at 50% 50%);filter:brightness(2.4)}to{clip-path:circle(80% at 50% 50%);filter:none}}
+@media (prefers-reduced-motion:reduce){.collage .f{animation:none!important}.ph{transition:none}.ph.pre{filter:none;opacity:1}.flash{display:none}.lb.on .ph{animation:none}}
+/* style cinéma */
+.top{background:radial-gradient(120% 90% at 50% 0%,#4d2a13 0%,#1f130b 55%,#17100a 100%)}
+.hero h1 em{font-family:"Playfair Display",Georgia,serif;font-style:italic;font-weight:600;color:var(--acc);letter-spacing:-.01em}
+.pri{background:linear-gradient(90deg,#ff6a33,#e8b35a)!important;color:#1c1008!important;border-color:transparent!important;box-shadow:0 6px 24px rgba(255,106,51,.35)}
+button[aria-pressed="true"]{background:linear-gradient(90deg,#ff6a33,#e8b35a);color:#1c1008;border-color:transparent;font-weight:600}
+.film{height:18px;margin:16px 0;background:repeating-linear-gradient(90deg,#8d7440 0 26px,transparent 26px 52px);opacity:.85;animation:filmmove 12s linear infinite}
+@keyframes filmmove{to{background-position:52px 0}}
+.contact{background:linear-gradient(90deg,#ff6a33,#e8b35a);color:#1c1008}
+.contact h2{color:#1c1008}
+.contact a.b{background:#1c1008;color:#fff;border-color:#1c1008}
+.contact a.b.alt{background:transparent;color:#1c1008;border-color:#1c1008}
+.pw{position:relative}
+.rb{position:absolute;bottom:12px;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;padding:0;border:0;cursor:pointer}
+.rb.hh{left:12px;background:rgba(20,12,6,.72);color:#fff}
+.rb.hh.on{color:#ff6a33}
+.rb.dd{right:12px;background:var(--acc);color:#1c1008}
+.rb:hover{transform:scale(1.08)}
+.rb:focus-visible{outline:2px solid #fff}
+@media (prefers-reduced-motion:reduce){.film{animation:none}.rb:hover{transform:none}}
+@media (max-width:820px){.hero{grid-template-columns:1fr;padding-bottom:48px}.collage{height:400px}}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* --- ajustements version hébergée --- */
+.ph{background:#2d2015}
+.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.lb img{max-width:92vw;max-height:70vh;width:auto;height:auto;object-fit:contain;display:block}
+.lb.on img{animation:iris .7s cubic-bezier(.3,.7,.2,1)}
+.soc{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:18px}
+@media (prefers-reduced-motion:reduce){.lb.on img{animation:none}}
+
+/* --- polices --- */
+body{font-family:"Outfit",system-ui,sans-serif}
+h1,h2,h3,.alb span,.stats b{font-family:"Cormorant Garamond",Georgia,serif}
+.hero h1{font-size:clamp(3.1rem,10vw,6.4rem);line-height:.95;letter-spacing:-.01em;font-weight:700}
+.hero h1 em{font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-weight:600}
+h2{font-size:clamp(2.1rem,5.5vw,3.2rem);font-weight:700;letter-spacing:0}
+.card h3{font-size:1.45rem;font-weight:700}
+.stats b{font-size:2.4rem;font-weight:700}
+.alb span{font-size:1.55rem;font-weight:700}
+/* --- veilleuses : lumières douces qui respirent --- */
+.glow{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.glow i{position:absolute;border-radius:50%;opacity:.16;animation:veilleuse 9s ease-in-out infinite;will-change:transform,opacity}
+.glow i:nth-child(1){width:70vmax;height:70vmax;left:-25vmax;top:-20vmax;background:radial-gradient(closest-side,rgba(255,122,61,.9),transparent)}
+.glow i:nth-child(2){width:60vmax;height:60vmax;right:-22vmax;top:25vh;background:radial-gradient(closest-side,rgba(255,196,92,.85),transparent);animation-duration:12s;animation-delay:-4s}
+.glow i:nth-child(3){width:65vmax;height:65vmax;left:-10vmax;bottom:-30vmax;background:radial-gradient(closest-side,rgba(255,92,128,.8),transparent);animation-duration:14s;animation-delay:-7s}
+.glow i:nth-child(4){width:45vmax;height:45vmax;right:5vw;bottom:-15vmax;background:radial-gradient(closest-side,rgba(255,150,60,.8),transparent);animation-duration:10s;animation-delay:-2s}
+@keyframes veilleuse{0%,100%{opacity:.14;transform:translate3d(0,0,0) scale(.92)}50%{opacity:.4;transform:translate3d(2.5vmax,-2vmax,0) scale(1.08)}}
+.top{background:radial-gradient(120% 90% at 50% 0%,rgba(77,42,19,.7) 0%,rgba(31,19,11,.35) 60%,transparent 100%)}
+.pri{animation:halo 3.6s ease-in-out infinite}
+@keyframes halo{0%,100%{box-shadow:0 6px 22px rgba(255,106,51,.28)}50%{box-shadow:0 6px 38px rgba(255,150,70,.65)}}
+.film{filter:drop-shadow(0 0 6px rgba(255,190,90,.5));animation:filmmove 12s linear infinite,veilF 5s ease-in-out infinite}
+@keyframes veilF{0%,100%{opacity:.6}50%{opacity:.95}}
+.rb.dd{box-shadow:0 0 14px rgba(255,106,51,.55)}
+.card:hover,.alb:hover,figure:hover{box-shadow:0 0 30px rgba(255,140,60,.28)}
+@media (prefers-reduced-motion:reduce){.glow i,.pri,.film{animation:none}.glow i{opacity:.22}}
+/* --- j’aime avec compteur --- */
+.rb.hh.cnt{width:auto;min-width:46px;padding:0 15px 0 13px;border-radius:23px;display:flex;align-items:center;gap:7px;font-weight:600;font-size:.98rem}
+/* --- logo visible sur les photos --- */
+.logoph{position:absolute;left:3%;top:2.5%;width:var(--lg,13%);height:auto;pointer-events:none;filter:drop-shadow(0 1px 3px rgba(0,0,0,.55))}
+.ph .logoph{position:absolute;inset:auto;right:auto;bottom:auto;left:3%;top:2.5%;width:var(--lg,13%);height:auto;object-fit:contain}
+.lbw{position:relative;display:inline-block;line-height:0}
+.lb .logoph{width:var(--lg,13%);max-width:none;max-height:none;animation:none!important;display:block}
+/* --- protection des images (pas d’enregistrement par appui long) --- */
+.ph img,.lb img,.about img,.me img,.collage .f div{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+.ph img{pointer-events:none}
+</style>
+</head>
+<body>
+<div class="glow" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<div class="flash" id="flash" aria-hidden="true"></div>
+<div class="top">
+  <div class="w nav">
+    <img id="logo" alt="">
+    <nav aria-label="Navigation"><a href="#albums">Albums</a><a href="#services">Services</a><a href="#galerie">Galerie</a><a href="#apropos">À propos</a><a href="#contact">Contact</a></nav>
+  </div>
+  <header class="w hero">
+    <div>
+      <div class="me"><img id="me1" alt=""><div><b id="meNom"></b><span id="meRole"></span></div></div>
+      <h1><span id="s1"></span> <em id="s2"></em></h1>
+      <p id="intro"></p>
+      <div class="cta"><a class="b pri" id="ctaWa" target="_blank" rel="noopener">Réserver sur WhatsApp</a><a class="b" href="#galerie">Voir les photos</a></div>
+      <div class="chips" id="chips"></div>
+    </div>
+    <div class="collage" id="collage" aria-hidden="true"></div>
+  </header>
+</div>
+<div class="film" aria-hidden="true"></div>
+<div class="stats"><div class="w" id="stats"></div></div>
+
+<section id="albums"><div class="w">
+  <h2>Nos albums</h2>
+  <p class="lead">Choisissez un album pour voir les photos et les télécharger.</p>
+  <div class="albums" id="albums-grid"></div>
+</div></section>
+
+<section id="services" style="background:rgba(36,26,17,.55);border-top:1px solid var(--line);border-bottom:1px solid var(--line)"><div class="w">
+  <h2>Ce que nous couvrons</h2>
+  <p class="lead">Un seul interlocuteur pour la photo et la vidéo, quel que soit l’événement.</p>
+  <div class="cards" id="svc"></div>
+  <div class="duo" id="duo"></div>
+</div></section>
+
+<div class="film" aria-hidden="true"></div>
+<section id="galerie"><div class="w">
+  <h2>Galerie</h2>
+  <p class="lead">Touchez une photo pour l’agrandir. La flèche orange l’enregistre sur votre appareil, avec le logo Fanuel Prod.</p>
+  <div class="fl" id="filters" role="group" aria-label="Filtrer par album"></div>
+  <div id="msg" role="status" aria-live="polite"></div>
+  <div class="grid" id="grid"></div>
+</div></section>
+
+<section id="apropos" style="border-top:1px solid var(--line)"><div class="w about">
+  <img id="me2" alt="" loading="lazy">
+  <div>
+    <h2 id="aNom"></h2>
+    <p class="lead" id="aTexte"></p>
+    <div class="cta"><a class="b pri" id="aWa" target="_blank" rel="noopener">M’écrire sur WhatsApp</a><a class="b" id="aTel">Appeler</a></div>
+  </div>
+</div></section>
+
+<section style="background:rgba(36,26,17,.55);border-top:1px solid var(--line)"><div class="w">
+  <h2>Comment réserver</h2>
+  <p class="lead">Trois étapes, sans complication.</p>
+  <div class="steps" id="steps"></div>
+</div></section>
+
+<div class="film" aria-hidden="true"></div>
+<section class="contact" id="contact"><div class="w">
+  <h2 id="cTitre"></h2>
+  <p id="cTexte"></p>
+  <div class="row"><a class="b" id="cWa" target="_blank" rel="noopener"></a><a class="b alt" id="cTel"></a></div>
+  <div class="soc" id="soc"></div>
+</div></section>
+<footer><div class="w" id="foot"></div></footer>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo agrandie">
+  <div class="lbw"><img id="lbimg" alt=""><img class="logoph" id="lblogo" alt="" draggable="false"></div>
+  <p id="lbcap"></p>
+  <div class="ctl"><button id="prev">Précédente</button><button id="next">Suivante</button><button class="dl" id="lbdl">Télécharger</button><button id="close">Fermer</button></div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const src = p => "photos/" + encodeURIComponent(p.fichier);
+const txt = (id, t) => { $(id).textContent = t; };
+const mk = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html) e.innerHTML = html; return e; };
+const WA = "https://wa.me/" + SITE.whatsapp, TEL = "tel:" + SITE.telephone;
+
+const albums = [...new Set(PHOTOS.map(p => p.album))];
+let cur = "Tout", idx = 0, view = [], likes = {};
+try { likes = JSON.parse(localStorage.getItem("fp-likes2") || "{}"); } catch (e) {}
+const saveLikes = () => { try { localStorage.setItem("fp-likes2", JSON.stringify(likes)); } catch (e) {} };
+const key = p => p.fichier;
+const hasLikes = () => Object.keys(likes).some(k => likes[k]);
+
+/* ---------- textes ---------- */
+document.title = SITE.nom + " – Photographie et vidéographie";
+document.documentElement.style.setProperty("--lg", SITE.tailleLogo + "%");
+$("logo").src = SITE.logo; $("lblogo").src = SITE.logo; $("logo").alt = SITE.nom + " Communication";
+$("me1").src = SITE.proprietaire.photo; $("me2").src = SITE.proprietaire.photo;
+$("me2").alt = "Portrait de " + SITE.proprietaire.nom;
+txt("meNom", SITE.proprietaire.nom); txt("meRole", SITE.proprietaire.role);
+txt("s1", SITE.slogan1); txt("s2", SITE.slogan2); txt("intro", SITE.intro);
+txt("aNom", SITE.proprietaire.nom); txt("aTexte", SITE.proprietaire.texte);
+txt("cTitre", SITE.contactTitre); txt("cTexte", SITE.contactTexte);
+$("ctaWa").href = WA; $("aWa").href = WA; $("aTel").href = TEL; $("cTel").href = TEL; $("cWa").href = WA;
+txt("cWa", "WhatsApp : " + SITE.whatsappAffiche); txt("cTel", "Appeler : " + SITE.telephoneAffiche);
+txt("foot", "© " + new Date().getFullYear() + " " + SITE.nom + ". " + SITE.slogan1 + " " + SITE.slogan2);
+SITE.evenements.forEach(e => { const s = mk("span"); s.textContent = e[1]; $("chips").appendChild(s); });
+SITE.reseaux.forEach(r => { const a = mk("a", "b"); a.textContent = r[0]; a.href = r[1]; a.target = "_blank"; a.rel = "noopener"; $("soc").appendChild(a); });
+SITE.metiers.forEach(m => { const d = mk("div", "card", '<div class="ic"></div><h3></h3><p></p>'); d.children[0].textContent = m[0]; d.children[1].textContent = m[1]; d.children[2].textContent = m[2]; $("duo").appendChild(d); });
+SITE.etapes.forEach(e => { const d = mk("div", "card", "<h3></h3><p></p>"); d.children[0].textContent = e[0]; d.children[1].textContent = e[1]; $("steps").appendChild(d); });
+SITE.evenements.forEach(e => { const d = mk("div", "card", '<div class="ic"></div><h3></h3><p></p>'); d.children[0].textContent = e[0]; d.children[1].textContent = e[1]; d.children[2].textContent = e[2]; $("svc").appendChild(d); });
+
+/* ---------- haut de page ---------- */
+(function () {
+  let v = PHOTOS.filter(p => p.vitrine); if (v.length < 3) v = PHOTOS.slice(0, 3);
+  ["f1", "f2", "f3"].forEach((c, i) => {
+    if (!v[i]) return;
+    const f = mk("div", "f " + c), d = mk("div"); d.style.backgroundImage = "url(" + src(v[i]) + ")"; f.appendChild(d); $("collage").appendChild(f);
+  });
+  [[PHOTOS.length, "photos en ligne"], [albums.length, albums.length > 1 ? "albums" : "album"], ["Photo + vidéo", "un seul prestataire"], [SITE.evenements.length, "types d’événements"]]
+    .forEach(s => { const d = mk("div", "", "<b></b><span></span>"); d.children[0].textContent = s[0]; d.children[1].textContent = s[1]; $("stats").appendChild(d); });
+  albums.forEach(name => {
+    const first = PHOTOS.find(p => p.album === name), n = PHOTOS.filter(p => p.album === name).length;
+    const b = mk("button", "alb"); b.style.backgroundImage = "url(" + src(first) + ")";
+    b.innerHTML = "<span></span>"; b.firstChild.textContent = name;
+    const s = mk("small"); s.textContent = n + (n > 1 ? " photos" : " photo"); b.firstChild.appendChild(s);
+    b.onclick = () => { cur = name; filters(); render(); $("galerie").scrollIntoView(); };
+    $("albums-grid").appendChild(b);
+  });
+  SITE.evenements.forEach(e => {
+    if (albums.includes(e[1])) return;
+    const b = mk("div", "alb soon"); b.innerHTML = "<span></span>"; b.firstChild.textContent = e[1];
+    const s = mk("small"); s.textContent = "Bientôt disponible"; b.firstChild.appendChild(s); $("albums-grid").appendChild(b);
+  });
+})();
+
+/* ---------- animations photo ---------- */
+const flash = $("flash");
+const snap = soft => { flash.className = "flash"; void flash.offsetWidth; flash.className = "flash " + (soft ? "soft" : "go"); };
+setTimeout(() => snap(false), 150);
+const io = ("IntersectionObserver" in window) ? new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.remove("pre"); io.unobserve(e.target); } }), { threshold: .15 }) : null;
+
+/* ---------- téléchargement avec logo ---------- */
+const cache = {};
+const charger = s => cache[s] || (cache[s] = new Promise((ok, ko) => { const i = new Image(); i.onload = () => ok(i); i.onerror = ko; i.src = s; }));
+async function avecLogo(p) {
+  const base = await charger(src(p)), logo = await charger(SITE.logo);
+  const c = document.createElement("canvas"); c.width = base.naturalWidth; c.height = base.naturalHeight;
+  const x = c.getContext("2d"); x.drawImage(base, 0, 0);
+  const ref = Math.min(c.width, 1.5 * c.height), r = logo.naturalHeight / logo.naturalWidth, m = Math.round(c.width * 0.03);
+  const lw = Math.round(c.width * SITE.tailleLogo / 100), l2 = Math.round(lw * 0.72);
+  x.shadowColor = "rgba(0,0,0,.55)"; x.shadowBlur = Math.round(lw * 0.03);
+  if (!p.sansLogoHaut) x.drawImage(logo, m, m, lw, Math.round(lw * r));
+  if (SITE.logoBas) x.drawImage(logo, m, c.height - m - Math.round(l2 * r), l2, Math.round(l2 * r));
+  if (SITE.logoCentre) { const cw = Math.round(c.width * 0.38); x.save(); x.globalAlpha = 0.16; x.shadowBlur = 0; x.drawImage(logo, (c.width - cw) / 2, (c.height - cw * r) / 2, cw, Math.round(cw * r)); x.restore(); }
+  return new Promise((ok, ko) => c.toBlob(b => b ? ok(b) : ko(new Error("blob")), "image/jpeg", 0.92));
+}
+function enregistrer(blob, nom) {
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = nom;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+}
+async function telecharger(p) {
+  const msg = $("msg"); msg.textContent = "Préparation de la photo…";
+  const nom = SITE.nom + " - " + p.titre.replace(/[^\w\u00C0-\u017F -]+/g, "").trim() + ".jpg";
+  let blob;
+  try { blob = SITE.filigrane ? await avecLogo(p) : await (await fetch(src(p))).blob(); }
+  catch (e) { msg.textContent = ""; const a = document.createElement("a"); a.href = src(p); a.download = nom; document.body.appendChild(a); a.click(); a.remove(); return; }
+  const ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  try {
+    const f = new File([blob], nom, { type: "image/jpeg" });
+    if (ios && navigator.canShare && navigator.canShare({ files: [f] })) { await navigator.share({ files: [f] }); msg.textContent = ""; return; }
+  } catch (e) { if (e && e.name === "AbortError") { msg.textContent = ""; return; } }
+  enregistrer(blob, nom); msg.textContent = "Photo enregistrée.";
+}
+
+/* ---------- galerie ---------- */
+const heart = on => on
+  ? '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>'
+  : '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>';
+const ARROW = '<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M12 4v12m0 0l-5-5m5 5l5-5M5 20h14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+let counts = null;            // null = compteur partagé indisponible (le cœur reste local)
+const hearts = [];
+const refreshHearts = () => hearts.forEach(f => f());
+const total = p => (counts && counts[key(p)]) || 0;
+async function chargerCompteurs() {
+  try { const r = await fetch("/api/likes", { cache: "no-store" }); if (!r.ok) throw 0; const j = await r.json(); counts = j.counts || {}; }
+  catch (e) { counts = null; return; }
+  refreshHearts(); filters(); lbCaption();
+}
+async function envoyer(p, delta) {
+  const k = key(p);
+  try {
+    const r = await fetch("/api/likes", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ key: k, delta }) });
+    const j = await r.json(); if (!r.ok || typeof j.count !== "number") throw 0;
+    counts[k] = j.count; refreshHearts(); lbCaption();
+  } catch (e) {
+    likes[k] = delta < 0; saveLikes(); counts[k] = Math.max(0, (counts[k] || 0) - delta); refreshHearts(); filters();
+    $("msg").textContent = "Impossible d’enregistrer votre j’aime pour le moment.";
+  }
+}
+
+function render() {
+  view = PHOTOS.filter(p => cur === "Tout" || cur === "Top" || (cur === "Favoris" ? likes[key(p)] : p.album === cur));
+  if (cur === "Top") view.sort((a, b) => total(b) - total(a));
+  hearts.length = 0;
+  const grid = $("grid"); grid.innerHTML = "";
+  view.forEach((p, n) => {
+    const f = mk("figure"), w = mk("div", "pw");
+    const ph = mk("button", "ph"); ph.style.aspectRatio = "4/5"; ph.setAttribute("aria-label", "Agrandir : " + p.titre);
+    const im = new Image(); im.alt = ""; im.loading = "lazy"; im.decoding = "async"; im.draggable = false; im.src = src(p);
+    im.onload = () => { ph.style.aspectRatio = im.naturalWidth + "/" + im.naturalHeight; };
+    ph.appendChild(im);
+    if (SITE.logoSurPhotos && !p.sansLogoHaut) { const l = new Image(); l.className = "logoph"; l.alt = ""; l.draggable = false; l.src = SITE.logo; ph.appendChild(l); }
+    ph.onclick = () => openLb(n);
+    if (io) { ph.classList.add("pre"); io.observe(ph); }
+    const h = mk("button", "rb hh");
+    const paint = () => {
+      const on = !!likes[key(p)], nb = total(p);
+      h.className = "rb hh" + (on ? " on" : "") + (counts ? " cnt" : "");
+      h.innerHTML = heart(on) + (counts ? "<span>" + nb + "</span>" : "");
+      h.setAttribute("aria-label", (on ? "Retirer votre j’aime : " : "J’aime : ") + p.titre + (counts ? " (" + nb + ")" : ""));
+    };
+    paint(); hearts.push(paint);
+    h.onclick = () => {
+      const was = cur, k = key(p), on = !likes[k];
+      likes[k] = on; saveLikes();
+      if (counts) counts[k] = Math.max(0, total(p) + (on ? 1 : -1));
+      if (cur === "Favoris" && !hasLikes()) cur = "Tout";
+      refreshHearts(); filters(); if (was === "Favoris") render();
+      if (counts) envoyer(p, on ? 1 : -1);
+    };
+    const d = mk("button", "rb dd", ARROW); d.setAttribute("aria-label", "Télécharger : " + p.titre); d.onclick = () => telecharger(p);
+    w.append(ph, h, d);
+    const c = mk("figcaption"), l = mk("div", "", "<b></b><span></span>"); l.children[0].textContent = p.titre; l.children[1].textContent = p.album;
+    c.appendChild(l); f.append(w, c); grid.appendChild(f);
+  });
+}
+function filters() {
+  const box = $("filters"); box.innerHTML = "";
+  const list = ["Tout", ...albums]; if (counts) list.push("Top"); if (hasLikes()) list.push("Favoris");
+  const label = c => c === "Favoris" ? "♥ Mes favoris" : c === "Top" ? "🔥 Plus aimées" : c;
+  list.forEach(c => { const b = mk("button"); b.textContent = label(c); b.setAttribute("aria-pressed", c === cur); b.onclick = () => { cur = c; filters(); render(); }; box.appendChild(b); });
+}
+
+/* ---------- visionneuse ---------- */
+const lb = $("lb");
+function lbCaption() { const p = view[idx]; if (!p) return; txt("lbcap", p.titre + " · " + p.album + (counts ? " · ♥ " + total(p) : "")); }
+function show() {
+  const p = view[idx], i = $("lbimg"); i.alt = p.titre; i.src = src(p);
+  i.style.animation = "none"; void i.offsetWidth; i.style.animation = "";
+  lbCaption(); $("lblogo").style.display = (SITE.logoSurPhotos && !p.sansLogoHaut) ? "block" : "none";
+}
+const openLb = n => { idx = n; show(); lb.classList.add("on"); snap(true); $("close").focus(); };
+const step = d => { idx = (idx + d + view.length) % view.length; show(); };
+const shut = () => lb.classList.remove("on");
+$("prev").onclick = () => step(-1); $("next").onclick = () => step(1); $("close").onclick = shut;
+$("lbdl").onclick = () => telecharger(view[idx]);
+lb.onclick = e => { if (e.target === lb) shut(); };
+document.addEventListener("keydown", e => {
+  if (!lb.classList.contains("on")) return;
+  if (e.key === "Escape") shut(); if (e.key === "ArrowLeft") step(-1); if (e.key === "ArrowRight") step(1);
+});
+filters(); render(); chargerCompteurs();
+document.addEventListener("contextmenu", e => { if (e.target.closest && e.target.closest(".ph,.lb,.collage,.alb,.about,.me")) e.preventDefault(); });
+document.addEventListener("dragstart", e => { if (e.target.tagName === "IMG") e.preventDefault(); });
+</script>
+</body>
+</html>
